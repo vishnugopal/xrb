@@ -46,9 +46,31 @@ p parser.parse('<div>
 </div>') && true
 
 p parser.parse('
-def greeting(user)  
+def greeting(user)
   return <h1>Hello, {formatName(user)}!</h1> if user
   return <h1>Hello, Stranger.</h1>
-end'
-) && true
+end
+') && true
+
+p parser.parse('
+element = <div tabIndex="0"></div>;
+') && true
+
+p parser.parse('
+element = <img src={user.avatarUrl}></img>
+') && true
+
+p parser.parse('
+element = <img src={user.avatarUrl} />
+') && true
+
+p parser.parse('
+element = (
+  <div>
+    <h1>Hello!</h1>
+    <h2>Good to see you here.</h2>
+  </div>
+)
+') 
+
 

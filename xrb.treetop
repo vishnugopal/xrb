@@ -2,7 +2,7 @@ require 'ripper'
 
 grammar XRB
   rule xml_ruby
-    ruby / (ruby_literals* tag* ruby_literals*)
+    (ruby_literals* tag* ruby_literals* tag* ruby_literals*)
   end
   
   rule ruby
@@ -10,7 +10,7 @@ grammar XRB
   end
   
   rule ruby_literals
-    [A-Za-z0-9=,\s\!()_] / '< '
+    (string / !tag .) 
   end
   
   rule string
