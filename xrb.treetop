@@ -1,0 +1,64 @@
+grammar XRB
+  rule xml_ruby
+    string / (!xrb ruby_literals)* xrb
+  end
+  
+  rule ruby_literals
+    [A-Za-z0-9] / [!@#$%^&*()-_+=?>:;\[\]]
+  end
+  
+  rule xrb
+    tag*
+  end
+  
+  rule string
+    ('"' ('\"' / !'"' .)* '"') / ('\'' ('\\\'' / !'\'' .)* '\'')
+  end
+  
+  rule tag
+    (opening_tag whitespace* (ruby_enclosed* tag*) whitespace* closing_tag) / empty_tag
+  end
+  
+  rule opening_tag
+  	'<' element_name (whitespace attribute)* whitespace* '>'
+  end
+  
+  rule empty_tag
+  	'<' element_name (whitespace attribute)* whitespace* '/>'
+  end
+  
+  rule closing_tag
+  	'</' element_name whitespace* '>'
+  end
+
+  rule attribute
+  	attribute_name whitespace* '=' 
+		((whitespace*  ruby_enclosed) /
+		 (whitespace* quote attribute_value quote) / 
+		 (whitespace* attribute_value))
+  end
+  
+  rule element_name
+  	[A-Za-z]+
+  end
+  
+  rule attribute_name
+  	[A-Za-z]+
+  end
+  
+  rule attribute_value
+  	[A-Za-z0-9]
+  end
+  
+  rule whitespace
+    [\s\n]
+  end
+  
+  rule quote
+  	('"' / '\'')
+  end
+  
+  rule ruby_enclosed
+    '{' (!'}' (ruby_enclosed / .))*  '}'
+  end
+end
