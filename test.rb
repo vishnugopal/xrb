@@ -30,6 +30,18 @@ p parser.parse('<hello a={b}><world></world></hello>') && true
 p parser.parse('<hello a={b}><world>{1 + 2}</world></hello>') && true
 p parser.parse('<hello a={b}><world a={b}>{1 + 2}</world></hello>') && true
 
+
+p parser.parse('a = <hello a=b/>') && true
+
+p parser.parse('element = (
+  <h1>
+    Hello, {formatName(user)}!
+  </h1>
+)
+')
+
+p parser.parse('a = "<hello a=b/>"') && true
+
 p parser.parse('<div>
   {props.messages.length > 0 &&
     <MessageList messages={props.messages} />

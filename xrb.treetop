@@ -1,14 +1,10 @@
 grammar XRB
   rule xml_ruby
-    string / (!xrb ruby_literals)* xrb
+    ruby_literals* string* tag*
   end
   
   rule ruby_literals
-    [A-Za-z0-9] / [!@#$%^&*()-_+=?>:;\[\]]
-  end
-  
-  rule xrb
-    tag*
+    [A-Za-z0-9=,\s] / '< '
   end
   
   rule string
