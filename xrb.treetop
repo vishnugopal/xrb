@@ -1,10 +1,16 @@
+require 'ripper'
+
 grammar XRB
   rule xml_ruby
-    ruby_literals* string* tag*
+    ruby / (ruby_literals* tag* ruby_literals*)
+  end
+  
+  rule ruby
+    .* &{|seq| Ripper.sexp(seq[0].text_value) }
   end
   
   rule ruby_literals
-    [A-Za-z0-9=,\s] / '< '
+    [A-Za-z0-9=,\s\!()_] / '< '
   end
   
   rule string
@@ -12,7 +18,7 @@ grammar XRB
   end
   
   rule tag
-    (opening_tag whitespace* (ruby_enclosed* tag*) whitespace* closing_tag) / empty_tag
+    (opening_tag text* ruby_enclosed* tag* text* closing_tag) / empty_tag
   end
   
   rule opening_tag
@@ -35,19 +41,23 @@ grammar XRB
   end
   
   rule element_name
-  	[A-Za-z]+
+  	[A-Za-z] [A-Za-z0-9]*
   end
   
   rule attribute_name
-  	[A-Za-z]+
+  	[A-Za-z] [A-Za-z0-9]*
   end
   
   rule attribute_value
-  	[A-Za-z0-9]
+  	[A-Za-z0-9] [A-Za-z0-9]*
+  end
+  
+  rule text
+    !closing_tag !ruby_enclosed !tag .
   end
   
   rule whitespace
-    [\s\n]
+    [[:space:]]
   end
   
   rule quote

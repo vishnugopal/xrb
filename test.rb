@@ -37,10 +37,7 @@ p parser.parse('element = (
   <h1>
     Hello, {formatName(user)}!
   </h1>
-)
-')
-
-p parser.parse('a = "<hello a=b/>"') && true
+)') && true
 
 p parser.parse('<div>
   {props.messages.length > 0 &&
