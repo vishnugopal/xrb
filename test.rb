@@ -45,3 +45,10 @@ p parser.parse('<div>
   }
 </div>') && true
 
+p parser.parse('
+def greeting(user)  
+  return <h1>Hello, {formatName(user)}!</h1> if user
+  return <h1>Hello, Stranger.</h1>
+end'
+) && true
+
